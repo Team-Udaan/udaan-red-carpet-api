@@ -1,30 +1,35 @@
 __author__ = 'alay'
 
 from src.basehandler import BaseHandler
-from couch import AsyncCouch
-from tornado.gen import coroutine
+import redis
+from hashlib import md5
 
 
 class LoginHandler(BaseHandler):
 
-    @coroutine
     def post(self, *args, **kwargs):
         username = self.get_argument('username')
-        ip = self.request.remote_ip
+        password = self.get_argument('password')
 
-        map_function = 'function(doc){if(doc.username == "' + username + '" && doc.ip == "' + ip + '"){emit(null, doc)}}'
-        reduce_function = None
-        view_doc = dict(map=map_function, reduce=reduce_function)
-        client = AsyncCouch('logged_in', self.localhost)
-        data = yield client.temp_view(view_doc)
-        if data['total_rows'] != 0:
-            self.send_error(403)
+        client = redis.Redis()
+        flag = client.get(username)
+        if flag:
+            self.send_error(400)
         else:
-            doc = dict()
-            doc['username'] = username
-            doc['ip'] = ip
-            doc['userAgent'] = self.request.headers['User-Agent']
-            client.save_doc(doc)
-            self.send_error(200)
-        client.close()
-        return
+            password_hash_once = md5(str(username).encode('utf-8')).hexdigest()
+            password_hash = md5(password_hash_once.encode('utf-8')).hexdigest()[0:4]
+            if password == password_hash:
+                with client.pipeline() as pipe:
+                    while True:
+                        try:
+                            pipe.watch('counter')
+                            pipe.multi()
+                            pipe.set(username, True)
+                            pipe.incr('counter')
+                            pipe.execute()
+                            break
+                        except redis.WatchError as error:
+                            continue
+                self.send_error(200)
+            else:
+                self.send_error(403)
