@@ -14,8 +14,7 @@ class BaseHandler(RequestHandler):
 
     def initialize(self):
         print(self.request)
-        self.ok = ''
-        self.voted = ''
+        self.response = dict()
 
     def options(self, *args, **kwargs):
         self.send_error(200)
@@ -38,18 +37,15 @@ class BaseHandler(RequestHandler):
                 self.write(line)
             self.finish()
         else:
-            response = dict()
-            if self.ok == "" and self.voted == "":
-                response['status'] = status_code
-                response['message'] = self._reason
+            if (list(self.response.keys()).__len__()) == 0:
+                self.response['status'] = status_code
+                self.response['message'] = self._reason
             else:
-                response['ok'] = self.ok
-                response['voted'] = self.voted
-            self.set_header('Content-Type', 'application/json')
-            self.set_header("Access-Control-Allow-Origin", "*")
-            self.set_header("Access-Control-Allow-Credentials", "false")
-            self.set_header("Access-Control-Expose-Headers", "*")
-            self.set_header("Access-Control-Allow-Methods", "Post, Options")
-            self.set_header("Access-Control-Allow-Headers", "Accept, Content-Type")
-            print(response)
-            self.finish(json.dumps(response))
+                self.set_header('Content-Type', 'application/json')
+                self.set_header("Access-Control-Allow-Origin", "*")
+                self.set_header("Access-Control-Allow-Credentials", "false")
+                self.set_header("Access-Control-Expose-Headers", "*")
+                self.set_header("Access-Control-Allow-Methods", "Post, Options")
+                self.set_header("Access-Control-Allow-Headers", "Accept, Content-Type")
+                print(self.response)
+                self.finish(json.dumps(self.response))

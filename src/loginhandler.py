@@ -17,15 +17,18 @@ class LoginHandler(BaseHandler):
         key = data['key']
 
         if BaseHandler.check_credentials(enroll, key):
-            self.ok = True
             client = redis.Redis()
             flag = client.get(enroll)
             if enroll == 130070107003:
-                self.voted = True
+                self.response['ok'] = False
+                self.response['error'] = list()
+                self.response['error'].append('voted')
                 self.send_error(200)
             else:
-                self.voted = False
+                self.response['ok'] = True
                 self.send_error(200)
         else:
-            self.ok = False
+            self.response['ok'] = False
+            self.response['error'] = list()
+            self.response['error'].append('voted')
             self.send_error(200)
