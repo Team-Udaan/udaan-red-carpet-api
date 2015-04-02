@@ -2,6 +2,7 @@ __author__ = 'alay'
 
 from tornado.web import RequestHandler
 from os.path import dirname
+from hashlib import md5
 import traceback
 import json
 
@@ -15,6 +16,16 @@ class BaseHandler(RequestHandler):
         self.ok = ''
         self.voted = ''
         self.localhost = 'http://admin:admin@127.0.0.1:5984'
+
+    @staticmethod
+    def check_credentials(enroll, key):
+        key_hash = md5(str(enroll).encode('utf-8')).hexdigest()
+        double_hash = md5(key_hash.encode('utf-8')).hexdigest()[0:4]
+
+        if double_hash == key:
+            return True
+        else:
+            return False
 
     def write_error(self, status_code, **kwargs):
         if self.settings.get("serve_traceback") and "exc_info" in kwargs:
