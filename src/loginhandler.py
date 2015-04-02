@@ -20,7 +20,7 @@ class LoginHandler(BaseHandler):
             self.ok = True
             client = redis.Redis()
             flag = client.get(enroll)
-            if flag:
+            if enroll == 130070107003:
                 self.voted = True
                 self.send_error(200)
             else:
