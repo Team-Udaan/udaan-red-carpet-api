@@ -8,16 +8,15 @@ from tornado.web import asynchronous
 
 class LoginHandler(CorsMixin, BaseHandler):
 
-    @asynchronous
+    CORS_ORIGIN = '*'
+    CORS_HEADERS = '*'
+    CORS_METHODS = 'POST, OPTIONS'
+    CORS_EXPOSE_HEADERS = '*'
+    CORS_CREDENTIALS = False
+
     def post(self, *args, **kwargs):
         enroll = self.get_argument('enroll')
         key = self.get_argument('key')
-
-        CorsMixin.CORS_ORIGIN = '*'
-        CorsMixin.CORS_HEADERS = '*'
-        CorsMixin.CORS_METHODS = 'POST, OPTIONS'
-        CorsMixin.CORS_EXPOSE_HEADERS = '*'
-        CorsMixin.CORS_CREDENTIALS = False
 
         if BaseHandler.check_credentials(enroll, key):
             self.ok = True
