@@ -4,6 +4,7 @@ __author__ = 'alay'
 from src.basehandler import BaseHandler
 import json
 import redis
+from tornado.httputil import HTTPServerRequest
 
 
 class VoteHandler(BaseHandler):
@@ -12,9 +13,9 @@ class VoteHandler(BaseHandler):
         self.send_error(200)
 
     def post(self, *args, **kwargs):
-        login = json.loads(self.get_argument('login'))
-        form = json.loads(self.get_argument('form'))
-        self.voted = form
+        data = json.loads(self.request.body.decode('utf-8'))
+        login = data['login']
+        self.voted = data['form']
 
         if BaseHandler.check_credentials(login['enroll'], login['key']):
             self.ok = True

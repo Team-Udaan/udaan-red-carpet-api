@@ -2,6 +2,7 @@ __author__ = 'alay'
 
 from src.basehandler import BaseHandler
 import redis
+import json
 
 
 class LoginHandler(BaseHandler):
@@ -10,8 +11,10 @@ class LoginHandler(BaseHandler):
         self.send_error(200)
 
     def post(self, *args, **kwargs):
-        enroll = self.get_argument('enroll')
-        key = self.get_argument('key')
+        data = json.loads(self.request.body.decode('utf-8'))
+        print(self.request.body)
+        enroll = data['enroll']
+        key = data['key']
 
         if BaseHandler.check_credentials(enroll, key):
             self.ok = True

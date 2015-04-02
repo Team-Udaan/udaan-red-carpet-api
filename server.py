@@ -8,7 +8,7 @@ from src.loginhandler import LoginHandler
 from src.votehandler import VoteHandler
 from tornado.options import options, define
 
-define('server_ip', type=str, default='172.31.40.214')
+define('server_ip', type=str, default='172.31..40.214')
 
 
 app = Application([
