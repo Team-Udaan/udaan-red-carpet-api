@@ -40,4 +40,5 @@ class BaseHandler(RequestHandler):
             response['voted'] = self.voted
             # response['message'] = self.message
             self.set_header('Content-Type', 'application/json')
+            self.set_header('Access-Control-Allow-Origin', '*')
             self.finish(json.dumps(response))
