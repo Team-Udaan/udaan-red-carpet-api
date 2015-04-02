@@ -39,9 +39,14 @@ class BaseHandler(RequestHandler):
             self.finish()
         else:
             response = dict()
-            response['ok'] = self.ok
-            response['voted'] = self.voted
-            # response['message'] = self.message
+            if self.ok == "" and self.voted == "":
+                response['status'] = status_code
+                response['message'] = self._reason
+            else:
+                response['ok'] = self.ok
+                response['voted'] = self.voted
             self.set_header('Content-Type', 'application/json')
             self.set_header('Access-Control-Allow-Origin', '*')
+            self.set_header("Access-Control-Allow-Methods", "POST, OPTIONS")
+            self.set_header("Access-Control-Allow-Headers", "*")
             self.finish(json.dumps(response))
