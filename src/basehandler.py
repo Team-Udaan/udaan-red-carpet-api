@@ -8,16 +8,16 @@ import json
 from tornado_cors import CorsMixin
 
 
-class BaseHandler(CorsMixin, RequestHandler):
+class BaseHandler(RequestHandler):
 
     root = dirname(__file__).rstrip('/app')
     localhost = 'http://admin:admin@127.0.0.1:5984/'
 
+    CorsMixin.CORS_ORIGIN = '*'
     CorsMixin.CORS_HEADERS = '*'
     CorsMixin.CORS_METHODS = 'POST, OPTIONS'
     CorsMixin.CORS_EXPOSE_HEADERS = '*'
     CorsMixin.CORS_CREDENTIALS = False
-
 
     def initialize(self):
         self.ok = ''
