@@ -8,6 +8,9 @@ import redis
 
 class VoteHandler(BaseHandler):
 
+    def options(self, *args, **kwargs):
+        self.send_error(200)
+
     def post(self, *args, **kwargs):
         login = json.loads(self.get_argument('login'))
         form = json.loads(self.get_argument('form'))

@@ -1,20 +1,15 @@
 __author__ = 'alay'
 
 from src.basehandler import BaseHandler
-from tornado_cors import CorsMixin
 import redis
-from tornado.web import asynchronous
 
+class LoginHandler(BaseHandler):
 
-class LoginHandler(CorsMixin, BaseHandler):
+    def options(self, *args, **kwargs):
+        self.send_error(200)
 
-    CORS_ORIGIN = '*'
-    CORS_HEADERS = '*'
-    CORS_METHODS = 'POST, OPTIONS'
-    CORS_EXPOSE_HEADERS = '*'
-    CORS_CREDENTIALS = False
-
-    def post(self, *args, **kwargs):
+    def options(self, *args, **kwargs):
+        self.send_error(200)def post(self, *args, **kwargs):
         enroll = self.get_argument('enroll')
         key = self.get_argument('key')
 
