@@ -5,20 +5,24 @@ from os.path import dirname
 from hashlib import md5
 import traceback
 import json
+from tornado_cors import CorsMixin
 
 
-class BaseHandler(RequestHandler):
+class BaseHandler(CorsMixin, RequestHandler):
 
     root = dirname(__file__).rstrip('/app')
     localhost = 'http://admin:admin@127.0.0.1:5984/'
+
+    CorsMixin.CORS_HEADERS = '*'
+    CorsMixin.CORS_METHODS = 'POST, OPTIONS'
+    CorsMixin.CORS_EXPOSE_HEADERS = '*'
+    CorsMixin.CORS_CREDENTIALS = False
+
 
     def initialize(self):
         self.ok = ''
         self.voted = ''
         self.localhost = 'http://admin:admin@127.0.0.1:5984'
-
-    def options(self, *args, **kwargs):
-        self.send_error(200)
 
     @staticmethod
     def check_credentials(enroll, key):
@@ -46,7 +50,4 @@ class BaseHandler(RequestHandler):
                 response['ok'] = self.ok
                 response['voted'] = self.voted
             self.set_header('Content-Type', 'application/json')
-            self.set_header('Access-Control-Allow-Origin', '*')
-            self.set_header("Access-Control-Allow-Methods", "POST, OPTIONS")
-            self.set_header("Access-Control-Allow-Headers", "*")
             self.finish(json.dumps(response))
