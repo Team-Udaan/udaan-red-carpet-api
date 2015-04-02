@@ -8,28 +8,22 @@ from hashlib import md5
 class LoginHandler(BaseHandler):
 
     def post(self, *args, **kwargs):
-        username = self.get_argument('username')
-        password = self.get_argument('password')
+        enroll = self.get_argument('enroll')
+        key = self.get_argument('key')
 
         client = redis.Redis()
-        flag = client.get(username)
+        flag = client.get(enroll)
         if flag:
-            self.send_error(400)
+            self.ok = ''
+            self.voted = True
+            self.send_error(406)
         else:
-            password_hash_once = md5(str(username).encode('utf-8')).hexdigest()
+            self.voted = False
+            password_hash_once = md5(str(enroll).encode('utf-8')).hexdigest()
             password_hash = md5(password_hash_once.encode('utf-8')).hexdigest()[0:4]
-            if password == password_hash:
-                with client.pipeline() as pipe:
-                    while True:
-                        try:
-                            pipe.watch('counter')
-                            pipe.multi()
-                            pipe.set(username, True)
-                            pipe.incr('counter')
-                            pipe.execute()
-                            break
-                        except redis.WatchError as error:
-                            continue
+            if key == password_hash:
+                self.ok = True
                 self.send_error(200)
             else:
+                self.ok = False
                 self.send_error(403)

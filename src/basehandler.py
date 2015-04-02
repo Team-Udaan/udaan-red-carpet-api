@@ -12,7 +12,8 @@ class BaseHandler(RequestHandler):
     localhost = 'http://admin:admin@127.0.0.1:5984/'
 
     def initialize(self):
-        self.message = ''
+        self.ok = ''
+        self.voted = ''
         self.localhost = 'http://admin:admin@127.0.0.1:5984'
 
     def write_error(self, status_code, **kwargs):
@@ -23,10 +24,9 @@ class BaseHandler(RequestHandler):
                 self.write(line)
             self.finish()
         else:
-            if self.message == '':
-                self.message = self._reason
             response = dict()
-            response['status'] = str(status_code)
-            response['message'] = self.message
+            response['ok'] = self.ok
+            response['voted'] = self.voted
+            # response['message'] = self.message
             self.set_header('Content-Type', 'application/json')
             self.finish(json.dumps(response))
