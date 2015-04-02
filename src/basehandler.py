@@ -48,6 +48,6 @@ class BaseHandler(RequestHandler):
             self.set_header('Content-Type', 'application/json')
             self.set_header("Access-Control-Allow-Origin", "*")
             self.set_header("Access-Control-Allow-Credentials", "false")
-            self.set_header("Access-Control-Allow-Methods", "POST,OPTIONS")
-            self.set_header("Access-Control-Allow-Headers", "Content-Type")
+            self.set_header("Access-Control-Allow-Methods", "*")
+            self.set_header("Access-Control-Allow-Headers", "*")
             self.finish(json.dumps(response))
