@@ -17,6 +17,9 @@ class BaseHandler(RequestHandler):
         self.voted = ''
         self.localhost = 'http://admin:admin@127.0.0.1:5984'
 
+    def options(self, *args, **kwargs):
+        self.send_error(200)
+
     @staticmethod
     def check_credentials(enroll, key):
         key_hash = md5(str(enroll).encode('utf-8')).hexdigest()
@@ -41,4 +44,6 @@ class BaseHandler(RequestHandler):
             # response['message'] = self.message
             self.set_header('Content-Type', 'application/json')
             self.set_header('Access-Control-Allow-Origin', '*')
+            self.set_header('Access-Control-Request-Method', 'OPTIONS')
+            self.set_header('Access-Control-Request-Method', 'POST')
             self.finish(json.dumps(response))
