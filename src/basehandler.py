@@ -13,7 +13,7 @@ class BaseHandler(RequestHandler):
     root = dirname(__file__).rstrip('/app')
 
     def initialize(self):
-        print(self.request.uri, self.request.remote_ip)
+        print(self.request)
         self.ok = ''
         self.voted = ''
 
