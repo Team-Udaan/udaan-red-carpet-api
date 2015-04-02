@@ -44,6 +44,4 @@ class BaseHandler(RequestHandler):
             # response['message'] = self.message
             self.set_header('Content-Type', 'application/json')
             self.set_header('Access-Control-Allow-Origin', '*')
-            self.set_header('Access-Control-Request-Method', 'OPTIONS')
-            self.set_header('Access-Control-Request-Method', 'POST')
             self.finish(json.dumps(response))
