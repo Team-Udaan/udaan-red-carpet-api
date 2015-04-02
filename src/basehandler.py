@@ -49,5 +49,5 @@ class BaseHandler(RequestHandler):
             self.set_header("Access-Control-Allow-Origin", "*")
             self.set_header("Access-Control-Allow-Credentials", "false")
             self.set_header("Access-Control-Allow-Methods", "POST,OPTIONS")
-            self.set_header("Access-Control-Allow-Headers", "*")
+            self.set_header("Access-Control-Allow-Headers", "Content-Type")
             self.finish(json.dumps(response))
