@@ -18,7 +18,7 @@ class VoteHandler(BaseHandler):
 
         if BaseHandler.check_credentials(login['enroll'], login['key']):
             self.ok = True
-            if login['enroll'] == '003':
+            if int(login['enroll']) == 130070107003:
                 self.voted = True
             else:
                 self.voted = False
