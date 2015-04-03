@@ -54,7 +54,7 @@ class VoteHandler(BaseHandler):
                         try:
                             pipe.watch('counter')
                             pipe.multi()
-                            VoteHandler.set_vote(data, pipe)
+                            VoteHandler.vote_counter(data, pipe)
                             pipe.incr('counter')
                             pipe.execute()
                             break
