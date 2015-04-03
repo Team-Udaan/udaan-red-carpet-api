@@ -65,7 +65,7 @@ class VoteHandler(BaseHandler):
         else:
             self.response['ok'] = False
             self.response['error'] = list()
-            self.response['error'].append('voted')
+            self.response['error'].append('credentials')
 
         self.send_error(200)
         return
