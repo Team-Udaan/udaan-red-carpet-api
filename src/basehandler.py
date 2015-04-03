@@ -40,12 +40,11 @@ class BaseHandler(RequestHandler):
             if (list(self.response.keys()).__len__()) == 0:
                 self.response['status'] = status_code
                 self.response['message'] = self._reason
-            else:
-                self.set_header('Content-Type', 'application/json')
-                self.set_header("Access-Control-Allow-Origin", "*")
-                self.set_header("Access-Control-Allow-Credentials", "false")
-                self.set_header("Access-Control-Expose-Headers", "*")
-                self.set_header("Access-Control-Allow-Methods", "Post, Options")
-                self.set_header("Access-Control-Allow-Headers", "Accept, Content-Type")
-                print(self.response)
-                self.finish(json.dumps(self.response))
+            self.set_header('Content-Type', 'application/json')
+            self.set_header("Access-Control-Allow-Origin", "*")
+            self.set_header("Access-Control-Allow-Credentials", "false")
+            self.set_header("Access-Control-Expose-Headers", "*")
+            self.set_header("Access-Control-Allow-Methods", "Post, Options")
+            self.set_header("Access-Control-Allow-Headers", "Accept, Content-Type")
+            print(self.response)
+            self.finish(json.dumps(self.response))
