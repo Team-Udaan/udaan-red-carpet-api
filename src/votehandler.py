@@ -42,7 +42,7 @@ class VoteHandler(BaseHandler):
 
         if BaseHandler.check_credentials(login['enroll'], login['key']):
 
-            flag = self.client.hexists('voter:' + login['enroll'], 'voted')
+            flag = self.client.hexists('voter:' + str(login['enroll']), 'voted')
 
             if flag:
                 self.response['ok'] = False
