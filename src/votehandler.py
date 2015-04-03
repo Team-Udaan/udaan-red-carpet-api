@@ -16,9 +16,16 @@ class VoteHandler(BaseHandler):
         login = data['login']
 
         if BaseHandler.check_credentials(login['enroll'], login['key']):
-            self.response['ok'] = True
+
+            if login['enroll'] == 130070107003:
+                self.response['ok'] = False
+                self.response['error'] = list()
+                self.response['error'].append('voted')
+            else:
+                self.response['ok'] = True
         else:
             self.response['ok'] = False
-
+            self.response['error'] = list()
+            self.response['error'].append('voted')
         self.send_error(200)
         return
