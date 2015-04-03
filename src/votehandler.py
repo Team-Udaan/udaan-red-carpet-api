@@ -12,6 +12,7 @@ class VoteHandler(BaseHandler):
 
     def post(self, *args, **kwargs):
         data = json.loads(self.request.body.decode('utf-8'))
+        print(data)
         login = data['login']
 
         if BaseHandler.check_credentials(login['enroll'], login['key']):
