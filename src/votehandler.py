@@ -8,7 +8,6 @@ import redis
 
 class VoteHandler(BaseHandler):
 
-
     @staticmethod
     def vote_counter(data, pipe):
         voter = 'voter:' + str(data['login']['enroll'])
@@ -26,9 +25,7 @@ class VoteHandler(BaseHandler):
                 value = data['form'][data_category]
                 pipe.hincrby(category, value)
                 pipe.hset(voter, category, value)
-                print(category, pipe.hgetall(category))
         pipe.hincrby(voter, 'voted')
-        print(voter, pipe.hgetall(voter))
         pipe.save()
         return
 
