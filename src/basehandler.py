@@ -5,15 +5,14 @@ from os.path import dirname
 from hashlib import md5
 import traceback
 import json
-from tornado_cors import CorsMixin
-
+import redis
 
 class BaseHandler(RequestHandler):
 
     root = dirname(__file__).rstrip('/app')
 
     def initialize(self):
-        print(self.request)
+        self.client = redis.StrictRedis()
         self.response = dict()
 
     def options(self, *args, **kwargs):

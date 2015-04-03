@@ -17,9 +17,8 @@ class LoginHandler(BaseHandler):
         key = data['key']
 
         if BaseHandler.check_credentials(enroll, key):
-            client = redis.Redis()
-            flag = client.get(enroll)
-            if enroll == 130070107003:
+            flag = self.client.hexists('voter:' + enroll, 'voted')
+            if flag:
                 self.response['ok'] = False
                 self.response['error'] = list()
                 self.response['error'].append('voted')
@@ -32,3 +31,6 @@ class LoginHandler(BaseHandler):
             self.response['error'] = list()
             self.response['error'].append('credentials')
             self.send_error(200)
+
+    def __del__(self):
+        del self.client
