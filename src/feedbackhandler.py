@@ -16,10 +16,9 @@ class FeedbackHandler(BaseHandler):
         feedback = data['feedback']
         voter_id = str(self.client.get(enroll).decode('utf-8'))
         voter = 'voter:' + voter_id
-        print(voter)
         try:
             self.client.hset(voter, 'stars', feedback['star'])
-            self.client.hset(voter, 'suggestion', feedback['suggestion'])
+            self.client.hset(voter, 'suggestions', feedback['suggestions'])
             self.send_error(200)
         except Exception as error:
             self.send_error(500)
