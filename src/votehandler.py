@@ -51,7 +51,7 @@ class VoteHandler(BaseHandler):
                     while 1:
                         try:
                             counter = self.client.get('counter')
-                            data['counter'] = str(counter)
+                            data['counter'] = str(counter.decode('utf-8'))
                             pipe.watch('counter')
                             pipe.multi()
                             VoteHandler.vote_counter(data, pipe)
