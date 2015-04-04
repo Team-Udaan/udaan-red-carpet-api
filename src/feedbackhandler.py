@@ -19,6 +19,7 @@ class FeedbackHandler(BaseHandler):
         try:
             self.client.hset(voter, 'stars', feedback['stars'])
             self.client.hset(voter, 'suggestions', feedback['suggestions'])
+            self.response['ok'] = True
             self.send_error(200)
         except Exception as error:
             print(error)
