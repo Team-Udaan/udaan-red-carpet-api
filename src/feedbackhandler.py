@@ -27,3 +27,5 @@ class FeedbackHandler(BaseHandler):
         except Exception as error:
             print(error)
             self.response['ok'] = False
+
+        self.send_error(200)
