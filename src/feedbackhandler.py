@@ -10,8 +10,8 @@ class FeedbackHandler(BaseHandler):
 
     @coroutine
     def post(self, *args, **kwargs):
-        print(data)
         data = json.loads(self.request.body.decode('utf-8'))
+        print(data)
         enroll = data['login']['enroll']
         feedback = data['feedback']
         voter_id = str(self.client.get(enroll).decode('utf-8'))
