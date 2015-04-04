@@ -10,7 +10,9 @@ class VoteHandler(BaseHandler):
 
     @staticmethod
     def vote_counter(data, pipe):
-        voter = 'voter:' + str(data['login']['enroll'])
+        voter = 'voter:' + data['counter']
+        pipe.hset(voter, 'enroll', data['login']['enroll'])
+        pipe.set(data['login']['enroll'], data['counter'])
         for data_category in data['form']:
             if isinstance(data['form'][data_category], dict):
                 for gender in data['form'][data_category]:
@@ -48,6 +50,8 @@ class VoteHandler(BaseHandler):
                 with self.client.pipeline() as pipe:
                     while 1:
                         try:
+                            counter = self.client.get('counter')
+                            data['counter'] = counter
                             pipe.watch('counter')
                             pipe.multi()
                             VoteHandler.vote_counter(data, pipe)
