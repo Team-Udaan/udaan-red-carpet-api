@@ -11,7 +11,6 @@ class LoginHandler(BaseHandler):
 
     def post(self, *args, **kwargs):
         data = json.loads(self.request.body.decode('utf-8'))
-        print(self.request.body)
         enroll = data['enroll']
         key = data['key']
 

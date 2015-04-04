@@ -7,6 +7,7 @@ import traceback
 import json
 import redis
 
+
 class BaseHandler(RequestHandler):
 
     root = dirname(__file__).rstrip('/app')
@@ -49,5 +50,4 @@ class BaseHandler(RequestHandler):
             self.set_header("Access-Control-Expose-Headers", "*")
             self.set_header("Access-Control-Allow-Methods", "Post, Options")
             self.set_header("Access-Control-Allow-Headers", "Accept, Content-Type")
-            print(self.response)
             self.finish(json.dumps(self.response))

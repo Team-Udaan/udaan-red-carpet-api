@@ -11,7 +11,6 @@ class VoteHandler(BaseHandler):
     @staticmethod
     def vote_counter(data, pipe):
         voter = 'voter:' + data['counter']
-        print(voter)
         pipe.hset(voter, 'enroll', data['login']['enroll'])
         pipe.set(data['login']['enroll'], data['counter'])
         for data_category in data['form']:
@@ -35,7 +34,6 @@ class VoteHandler(BaseHandler):
 
     def post(self, *args, **kwargs):
         data = json.loads(self.request.body.decode('utf-8'))
-        print(data)
         login = data['login']
 
         if BaseHandler.check_credentials(login['enroll'], login['key']):
