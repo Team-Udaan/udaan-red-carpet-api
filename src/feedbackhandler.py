@@ -21,4 +21,5 @@ class FeedbackHandler(BaseHandler):
             self.client.hset(voter, 'suggestions', feedback['suggestions'])
             self.send_error(200)
         except Exception as error:
+            print(error)
             self.send_error(500)
