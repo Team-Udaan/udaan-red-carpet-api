@@ -1,7 +1,6 @@
 __author__ = 'alay'
 
 from src.basehandler import BaseHandler
-import redis
 import json
 
 
@@ -16,8 +15,8 @@ class LoginHandler(BaseHandler):
         enroll = data['enroll']
         key = data['key']
 
-        # if BaseHandler.check_credentials(enroll, key):
-        if key == 'pass':
+        if BaseHandler.check_credentials(enroll, key):
+
             flag = self.client.hexists('voter:' + str(enroll), 'voted')
             if flag:
                 self.response['ok'] = False

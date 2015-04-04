@@ -20,11 +20,15 @@ class BaseHandler(RequestHandler):
 
     @staticmethod
     def check_credentials(enroll, key):
-        key_hash = md5(str(enroll).encode('utf-8')).hexdigest()
-        double_hash = md5(key_hash.encode('utf-8')).hexdigest()[0:4]
+        college_code = str(enroll)[2:5]
+        if college_code == '007' or college_code == '008':
+            key_hash = md5(str(enroll).encode('utf-8')).hexdigest()
+            double_hash = md5(key_hash.encode('utf-8')).hexdigest()[0:4]
 
-        if double_hash == key:
-            return True
+            if double_hash == key:
+                return True
+            else:
+                return False
         else:
             return False
 
