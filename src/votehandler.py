@@ -57,7 +57,7 @@ class VoteHandler(BaseHandler):
                         except redis.WatchError as error:
                             continue
 
-            self.response['ok'] = True
+                self.response['ok'] = True
         else:
             self.response['ok'] = False
             self.response['error'] = list()
