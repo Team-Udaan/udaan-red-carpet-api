@@ -11,6 +11,7 @@ class VoteHandler(BaseHandler):
     @staticmethod
     def vote_counter(data, pipe):
         voter = 'voter:' + data['counter']
+        print(voter)
         pipe.hset(voter, 'enroll', data['login']['enroll'])
         pipe.set(data['login']['enroll'], data['counter'])
         for data_category in data['form']:
@@ -26,7 +27,6 @@ class VoteHandler(BaseHandler):
                 value = data['form'][data_category]
                 pipe.hincrby(category, value)
                 pipe.hset(voter, category, value)
-        pipe.hincrby(voter, 'voted')
         pipe.save()
         return
 
@@ -40,7 +40,7 @@ class VoteHandler(BaseHandler):
 
         if BaseHandler.check_credentials(login['enroll'], login['key']):
 
-            flag = self.client.hexists('voter:' + str(login['enroll']), 'voted')
+            flag = self.client.get(login['enroll'])
 
             if flag:
                 self.response['ok'] = False

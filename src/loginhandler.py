@@ -17,7 +17,7 @@ class LoginHandler(BaseHandler):
 
         if BaseHandler.check_credentials(enroll, key):
 
-            flag = self.client.hexists('voter:' + str(enroll), 'voted')
+            flag = self.client.get(enroll)
             if flag:
                 self.response['ok'] = False
                 self.response['error'] = list()
