@@ -20,6 +20,5 @@ app = Application([
 ])
 
 server = HTTPServer(app)
-print(options.ip)
 server.listen(8001, options.ip)
 IOLoop.instance().start()

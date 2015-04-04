@@ -3,7 +3,6 @@ __author__ = 'alay'
 
 from src.basehandler import BaseHandler
 import json
-from couch import AsyncCouch
 from tornado.gen import coroutine
 
 
