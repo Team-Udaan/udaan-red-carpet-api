@@ -17,7 +17,7 @@ class FeedbackHandler(BaseHandler):
         feedback = data['feedback']
         client = AsyncCouch('poll-feedback', couch_url='http://admin:admin@localhost:5984')
         doc = dict()
-        doc[login] = feedback
+        doc[login['enroll']] = feedback
         print(doc)
         try:
             yield client.save_doc(doc)
