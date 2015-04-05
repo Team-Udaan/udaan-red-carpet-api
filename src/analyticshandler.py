@@ -16,7 +16,6 @@ class AnalyticsHandler(BaseHandler):
             category_list = category.split(':')
             self.response[category_list[0]] = {}
             votes = self.client.hgetall(category)
-            print(votes, category)
             if category_list.__len__() == 1:
                 for vote in votes:
                     self.response[category_list[0]][vote.decode('utf-8')] = votes[vote].decode('utf-8')
@@ -24,6 +23,6 @@ class AnalyticsHandler(BaseHandler):
                 self.response[category_list[0]][category_list[1]] = {}
                 for vote in votes:
                     self.response[category_list[0]][category_list[1]][vote.decode('utf-8')] = votes[vote].decode('utf-8')
-        time = datetime.datetime.timestamp()
+        time = datetime.datetime.timestamp(datetime.datetime.now())
         self.response['timestamp'] = time
         self.send_error(200)
