@@ -12,7 +12,7 @@ from tornado.options import options, define
 from tornado.web import RequestHandler
 
 
-define("ip", default='192.168.1.5', help="run on the given ip", type=str)
+define("ip", default='172.31.40.214', help="run on the given ip", type=str)
 
 
 class IndexHandler(RequestHandler):
