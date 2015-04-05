@@ -12,20 +12,12 @@ class AnalyticsHandler(BaseHandler):
     def get(self, *args, **kwargs):
 
         for category in AnalyticsHandler.categories:
+            data = self.client.hgetall(category)
+            vote = {}
+            for each_data in data:
+                vote[each_data.decode('utf-8')] = data[each_data].decode('utf-8')
+            self.response[category] = vote
 
-            category_list = category.split(':')
-            try:
-                isinstance(self.response[category_list[0]], dict)
-            except Exception as error:
-                self.response[category_list[0]] = {}
-            votes = self.client.hgetall(category)
-            if category_list.__len__() == 1:
-                for vote in votes:
-                    self.response[category_list[0]][vote.decode('utf-8')] = votes[vote].decode('utf-8')
-            else:
-                self.response[category_list[0]][category_list[1]] = {}
-                for vote in votes:
-                    self.response[category_list[0]][category_list[1]][vote.decode('utf-8')] = votes[vote].decode('utf-8')
         time = datetime.datetime.timestamp(datetime.datetime.now())
         self.response['timestamp'] = int(time)
         self.send_error(200)
