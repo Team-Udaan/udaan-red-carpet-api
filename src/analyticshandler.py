@@ -14,7 +14,9 @@ class AnalyticsHandler(BaseHandler):
         for category in AnalyticsHandler.categories:
 
             category_list = category.split(':')
-            if isinstance(self.response[category_list[0]], dict) is False:
+            try:
+                isinstance(self.response[category_list[0]], dict)
+            except Exception as error:
                 self.response[category_list[0]] = {}
             votes = self.client.hgetall(category)
             if category_list.__len__() == 1:
