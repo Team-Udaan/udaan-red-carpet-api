@@ -1,6 +1,7 @@
 __author__ = 'alay'
 
 from src.basehandler import BaseHandler
+import datetime
 
 
 class AnalyticsHandler(BaseHandler):
@@ -23,4 +24,6 @@ class AnalyticsHandler(BaseHandler):
                 self.response[category_list[0]][category_list[1]] = {}
                 for vote in votes:
                     self.response[category_list[0]][category_list[1]][vote.decode('utf-8')] = votes[vote].decode('utf-8')
+        time = datetime.datetime.timestamp()
+        self.response['timestamp'] = time
         self.send_error(200)
