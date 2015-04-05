@@ -3,12 +3,10 @@ __author__ = 'alay'
 
 from src.basehandler import BaseHandler
 import json
-from tornado.gen import coroutine
 
 
 class FeedbackHandler(BaseHandler):
 
-    @coroutine
     def post(self, *args, **kwargs):
         data = json.loads(self.request.body.decode('utf-8'))
         enroll = data['login']['enroll']
@@ -18,6 +16,7 @@ class FeedbackHandler(BaseHandler):
         try:
             self.client.hset(voter, 'stars', feedback['stars'])
             self.client.hset(voter, 'suggestions', feedback['suggestions'])
+            self.client.save()
             self.response['ok'] = True
             self.send_error(200)
         except Exception as error:
