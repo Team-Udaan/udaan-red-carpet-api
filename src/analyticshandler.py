@@ -6,7 +6,7 @@ from src.basehandler import BaseHandler
 class AnalyticsHandler(BaseHandler):
 
     categories = ['styleIcon:female', 'persona:male', 'risingStar', 'artist:female', 'styleIcon:male', 'sportsIcon',
-                  'face:male', 'stars', 'artist:male', 'suggestions', 'enroll', 'persona:female', 'face:female']
+                  'face:male', 'artist:male', 'persona:female', 'face:female']
 
     def get(self, *args, **kwargs):
 
