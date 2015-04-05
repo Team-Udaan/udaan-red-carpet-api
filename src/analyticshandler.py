@@ -15,7 +15,7 @@ class AnalyticsHandler(BaseHandler):
             data = self.client.hgetall(category)
             vote = {}
             for each_data in data:
-                vote[each_data.decode('utf-8')] = data[each_data].decode('utf-8')
+                vote[each_data.decode('utf-8')] = int(data[each_data].decode('utf-8'))
             self.response[category] = vote
 
         time = datetime.datetime.timestamp(datetime.datetime.now())
