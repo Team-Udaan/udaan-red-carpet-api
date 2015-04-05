@@ -7,14 +7,16 @@ from tornado.httpserver import HTTPServer
 from src.loginhandler import LoginHandler
 from src.votehandler import VoteHandler
 from src.feedbackhandler import FeedbackHandler
-from src.basehandler import BaseHandler
+from src.analyticshandler import AnalyticsHandler
 from tornado.options import options, define
+from tornado.web import RequestHandler
 
 
-define("ip", default='192.168.1.111', help="run on the given ip", type=str)
+define("ip", default='192.168.1.5', help="run on the given ip", type=str)
 
 
-class IndexHandler(BaseHandler):
+class IndexHandler(RequestHandler):
+
     def get(self, *args, **kwargs):
         self.render('index.html')
 
@@ -23,6 +25,7 @@ app = Application([
     (r'/', IndexHandler),
     (r'/api/login', LoginHandler),
     (r'/api/feedback', FeedbackHandler),
+    (r'/api/analytics', AnalyticsHandler),
     (r'/api/vote', VoteHandler)
 ])
 
