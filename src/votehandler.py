@@ -42,7 +42,7 @@ class VoteHandler(BaseHandler):
 
             if flag:
                 self.response['ok'] = False
-                self.response['error'] = list()
+                self.response['error'] = []
                 self.response['error'].append('voted')
             else:
                 with self.client.pipeline() as pipe:
@@ -62,7 +62,7 @@ class VoteHandler(BaseHandler):
                 self.response['ok'] = True
         else:
             self.response['ok'] = False
-            self.response['error'] = list()
+            self.response['error'] = []
             self.response['error'].append('credentials')
 
         self.send_error(200)

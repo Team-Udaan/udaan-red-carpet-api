@@ -10,11 +10,11 @@ import redis
 
 class BaseHandler(RequestHandler):
 
-    root = dirname(__file__).rstrip('/app')
+    root = dirname(__file__).rstrip('/src')
 
     def initialize(self):
         self.client = redis.StrictRedis()
-        self.response = dict()
+        self.response = {}
 
     def options(self, *args, **kwargs):
         self.send_error(200)
