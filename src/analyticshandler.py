@@ -20,7 +20,7 @@ class AnalyticsHandler(BaseHandler):
                 for vote in votes:
                     self.response[category_list[0]][vote.decode('utf-8')] = votes[vote].decode('utf-8')
             else:
+                self.response[category_list[0]][category_list[1]] = {}
                 for vote in votes:
-                    self.response[category_list[0]][category_list[1]] = {}
                     self.response[category_list[0]][category_list[1]][vote.decode('utf-8')] = votes[vote].decode('utf-8')
         self.send_error(200)
