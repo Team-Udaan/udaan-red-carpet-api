@@ -19,5 +19,8 @@ class AnalyticsHandler(BaseHandler):
             self.response[category] = vote
 
         time = datetime.datetime.timestamp(datetime.datetime.now())
+        counter = self.client.get('counter')
+        counter = counter.decode('utf-8')
         self.response['timestamp'] = int(time)
+        self.response['counter'] = int(counter)
         self.send_error(200)
