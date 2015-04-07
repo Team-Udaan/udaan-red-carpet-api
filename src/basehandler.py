@@ -13,7 +13,7 @@ class BaseHandler(RequestHandler):
     root = dirname(__file__).rstrip('/src')
 
     def initialize(self):
-        self.client = redis.StrictRedis()
+        self.client = redis.StrictRedis(db=1)
         self.response = {}
 
     def options(self, *args, **kwargs):

@@ -10,10 +10,11 @@ from src.feedbackhandler import FeedbackHandler
 from src.analyticshandler import AnalyticsHandler
 from tornado.options import options, define
 from tornado.web import RequestHandler
+from tornado.options import parse_command_line
 
 
-define("ip", default='172.31.40.214', help="run on the given ip", type=str)
-
+define('ip', default='172.31.40.214', help="run on the given ip", type=str)
+parse_command_line()
 
 class IndexHandler(RequestHandler):
 
@@ -30,5 +31,6 @@ app = Application([
 ])
 
 server = HTTPServer(app)
-server.listen(8001, options.ip)
+print(options.ip)
+server.listen(8001, address=options.ip)
 IOLoop.instance().start()
