@@ -7,10 +7,10 @@ class GetfeedbackHandler(BaseHandler):
 
     def get(self, *args, **kwargs):
         counter = self.client.get('counter')
-        counter = counter.decode('utf-8')
+        counter = counter.decode('utf-8-')
         self.response['counter'] = counter
         self.response['data'] = {}
-        for i in range(0, counter):
+        for i in range(0, int(counter)):
             data = self.client.hgetall('voter:' + str(i).decode('utf-8'))
             for each_data in data:
                 data[each_data.decode('utf-8')] = data[each_data].decode('utf-8')
