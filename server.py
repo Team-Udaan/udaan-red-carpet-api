@@ -7,6 +7,7 @@ from tornado.httpserver import HTTPServer
 from src.loginhandler import LoginHandler
 from src.votehandler import VoteHandler
 from src.feedbackhandler import FeedbackHandler
+from src.getfeedbackhandler import GetfeedbackHandler
 from src.analyticshandler import AnalyticsHandler
 from tornado.options import options, define
 from tornado.web import RequestHandler
@@ -26,6 +27,7 @@ app = Application([
     (r'/', IndexHandler),
     (r'/api/login', LoginHandler),
     (r'/api/feedback', FeedbackHandler),
+    (r'/api/getfeedback', GetfeedbackHandler),
     (r'/api/analytics', AnalyticsHandler),
     (r'/api/vote', VoteHandler)
 ])
