@@ -13,7 +13,7 @@ class GetfeedbackHandler(BaseHandler):
         for i in range(0, int(counter)):
             data = self.client.hgetall('voter:' + str(i))
             for each_data in data:
-                data[each_data.decode('utf-8')] = data[each_data].decode('utf-8')
+                data[each_data.decode('utf-8')] = data[each_data]
                 del data[each_data]
                 self.response['data']['voter:' + str(i)] = data
         self.send_error(200)
