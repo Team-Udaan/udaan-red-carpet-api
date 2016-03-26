@@ -1,12 +1,9 @@
 import json
-
-from data_extractor import get_data
+import motor
+from tornado.gen import coroutine
+from loader import get_data
 from src.basehandler import BaseHandler
 from src.testhandler import TestHandler
-
-__author__ = 'alay'
-
-
 from tornado.web import Application
 from tornado.ioloop import IOLoop
 from tornado.httpserver import HTTPServer
@@ -20,8 +17,11 @@ from tornado.web import RequestHandler
 from tornado.options import parse_command_line
 
 
-define('ip', default='192.168.0.101', help="run on the given ip", type=str)
+define('config', default='api.config', help="give relative or full path of configuration file", type=str)
 parse_command_line()
+
+configuration_file_path = options.config
+ip, port = get_data()
 
 class IndexHandler(RequestHandler):
 
@@ -31,8 +31,13 @@ class IndexHandler(RequestHandler):
 
 class DataHandler(BaseHandler):
 
+    mongo_client = motor.MotorClient()
+
+    @coroutine
     def get(self, *args, **kwargs):
-        self.write("URC_DATA=" + json.dumps(get_data()))
+        data = yield DataHandler.mongo_client.udaanRedCarpet.config.find_one({})
+        del data["_id"]
+        self.write("URC_DATA=" + json.dumps(data))
 
 
 app = Application([
@@ -47,5 +52,6 @@ app = Application([
 ])
 
 server = HTTPServer(app)
-server.listen(8001, address=options.ip)
+server.listen(port, address=ip)
 IOLoop.instance().start()
+
