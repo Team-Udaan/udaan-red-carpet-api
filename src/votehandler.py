@@ -1,9 +1,8 @@
-__author__ = 'alay'
-
-
 from src.basehandler import BaseHandler
 import json
 import redis
+
+__author__ = 'alay'
 
 
 class VoteHandler(BaseHandler):

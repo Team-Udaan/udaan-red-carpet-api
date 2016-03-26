@@ -1,8 +1,8 @@
-__author__ = 'alay'
-
 
 from src.basehandler import BaseHandler
 import json
+
+__author__ = 'alay'
 
 
 class FeedbackHandler(BaseHandler):

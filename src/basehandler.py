@@ -1,4 +1,3 @@
-__author__ = 'alay'
 
 from tornado.web import RequestHandler
 from os.path import dirname
@@ -6,6 +5,8 @@ from hashlib import md5
 import traceback
 import json
 import redis
+
+__author__ = 'alay'
 
 
 class BaseHandler(RequestHandler):

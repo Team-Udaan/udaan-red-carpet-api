@@ -1,11 +1,11 @@
-__author__ = 'alay'
 
 from src.basehandler import BaseHandler
 import datetime
 
+__author__ = 'alay'
+
 
 class AnalyticsHandler(BaseHandler):
-
     categories = ['styleIcon:female', 'persona:male', 'risingStar', 'artist:female', 'styleIcon:male', 'sportsIcon',
                   'face:male', 'artist:male', 'persona:female', 'face:female']
 

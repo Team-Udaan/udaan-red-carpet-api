@@ -1,6 +1,6 @@
-__author__ = 'alay'
-
 from src.basehandler import BaseHandler
+
+__author__ = 'alay'
 
 
 class GetfeedbackHandler(BaseHandler):
