@@ -1,6 +1,7 @@
 import json
 import motor
 from tornado.gen import coroutine
+from tornado.template import Loader
 from loader import get_data
 from src.basehandler import BaseHandler
 from src.testhandler import TestHandler
@@ -21,13 +22,14 @@ define('config', default='api.config', help="give relative or full path of confi
 parse_command_line()
 
 configuration_file_path = options.config
-ip, port = get_data()
+ip, port, web_host = get_data(configuration_file_path)
 
 
 class IndexHandler(RequestHandler):
 
     def get(self, *args, **kwargs):
-        self.render('index.html')
+        loader = Loader(".")
+        self.write(loader.load("index.html").generate(web_host=web_host))
 
 
 class DataHandler(BaseHandler):
