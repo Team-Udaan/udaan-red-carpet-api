@@ -23,6 +23,7 @@ parse_command_line()
 configuration_file_path = options.config
 ip, port = get_data()
 
+
 class IndexHandler(RequestHandler):
 
     def get(self, *args, **kwargs):
@@ -54,4 +55,3 @@ app = Application([
 server = HTTPServer(app)
 server.listen(port, address=ip)
 IOLoop.instance().start()
-
