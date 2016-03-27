@@ -8,8 +8,8 @@ Images Directory Structure
 
 * root (path-to-this-folder will go in image host FQDN)
     * desktop
-        * catagories-named-folders-hypehn-separated
+        * categories-named-folders-hyphen-separated
             * nominee-names-hyphen-separated-with-extension
     * phone
-        * catagories-named-folders-hypehn-separated
+        * categories-named-folders-hyphen-separated
             * nominee-names-hyphen-separated-with-extension
