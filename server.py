@@ -55,5 +55,5 @@ app = Application([
 ])
 
 server = HTTPServer(app)
-server.listen(port, address=ip)
+server.listen(port)
 IOLoop.instance().start()
