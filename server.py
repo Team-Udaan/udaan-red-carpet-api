@@ -18,7 +18,7 @@ from tornado.web import RequestHandler
 from tornado.options import parse_command_line
 
 
-define('config', default='api.config', help="give relative or full path of configuration file", type=str)
+define('config', default='sample_api.config', help="give relative or full path of configuration file", type=str)
 parse_command_line()
 
 configuration_file_path = options.config
