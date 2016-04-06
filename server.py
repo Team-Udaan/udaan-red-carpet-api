@@ -34,14 +34,13 @@ class IndexHandler(RequestHandler):
 
 class DataHandler(BaseHandler):
 
-    mongo_client = motor.MotorClient()
-
     @coroutine
     def get(self, *args, **kwargs):
-        data = yield DataHandler.mongo_client.udaanRedCarpet.config.find_one({})
+        data = yield self.db.config.find_one({})
         del data["_id"]
         self.write("URC_DATA=" + json.dumps(data))
 
+client = motor.MotorClient()
 
 app = Application([
     (r'/', IndexHandler),
@@ -52,7 +51,7 @@ app = Application([
     (r'/api/analytics', AnalyticsHandler),
     (r'/api/test', TestHandler),
     (r'/api/vote', VoteHandler)
-])
+], db=client)
 
 server = HTTPServer(app)
 server.listen(port)

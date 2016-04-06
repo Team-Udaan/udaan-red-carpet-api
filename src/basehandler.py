@@ -1,4 +1,7 @@
+import os
+from datetime import datetime
 
+from tornado.gen import coroutine
 from tornado.web import RequestHandler
 from os.path import dirname
 from hashlib import md5
@@ -13,6 +16,39 @@ class BaseHandler(RequestHandler):
 
     root = dirname(__file__).rstrip('/src')
 
+    @coroutine
+    def prepare(self):
+        self.db = self.settings["db"].udaanRedCarpet
+        self.body = json.loads(self.request.body.decode())
+        self.start_time = datetime.now().timestamp()
+        request = dict(self.request.__dict__.items())
+        headers = dict(self.request.headers.__dict__.items())
+        request = dict(
+            uri=request["uri"],
+            body=self.body,
+            headers=headers["_dict"]
+        )
+        self.log_id = yield self.db.log.insert({"request": request})
+
+    @coroutine
+    def on_finish(self):
+        end_time = datetime.now().timestamp()
+        serve_time = end_time - self.start_time
+        yield self.db.log.update({"_id": self.log_id},
+                                    {"$set": {"response": self.response,
+                                              "serveTime": serve_time,
+                                              }})
+
+    @staticmethod
+    def get_default_function(enroll):
+        return "md5(md5(str(" + enroll + ").encode('utf-8')).digest()).hexdigest()[0:4]"
+
+    @staticmethod
+    def get_password(enroll):
+        function = os.getenv("HASH_FUNCTION", default=BaseHandler.get_default_function(enroll))
+        password = eval(function)
+        return password
+
     def initialize(self):
         self.client = redis.StrictRedis()
         self.response = {}
@@ -24,8 +60,7 @@ class BaseHandler(RequestHandler):
     def check_credentials(enroll, key):
         college_code = str(enroll)[2:5]
         if college_code == '007' or college_code == '008':
-            key_hash = md5(str(enroll).encode('utf-8')).hexdigest()
-            double_hash = md5(key_hash.encode('utf-8')).hexdigest()[0:4]
+            double_hash = BaseHandler.get_password(enroll)
 
             if double_hash == key:
                 return True
