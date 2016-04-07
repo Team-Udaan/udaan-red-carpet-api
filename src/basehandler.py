@@ -46,7 +46,7 @@ class BaseHandler(RequestHandler):
     @staticmethod
     def get_password(enroll):
         function = os.getenv("HASH_FUNCTION", default=BaseHandler.get_default_function(enroll))
-        password = eval(function)
+        password = eval(eval(function))
         return password
 
     def initialize(self):
