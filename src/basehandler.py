@@ -19,7 +19,10 @@ class BaseHandler(RequestHandler):
     @coroutine
     def prepare(self):
         self.db = self.settings["db"].udaanRedCarpet
-        self.body = json.loads(self.request.body.decode())
+        try:
+            self.body = json.loads(self.request.body.decode())
+        except Exception:
+            self.body = None
         self.start_time = datetime.now().timestamp()
         request = dict(self.request.__dict__.items())
         headers = dict(self.request.headers.__dict__.items())
@@ -53,6 +56,7 @@ class BaseHandler(RequestHandler):
         self.client = redis.StrictRedis()
         self.response = {}
         self.start_time = float()
+        self.log_id = None
 
     def options(self, *args, **kwargs):
         self.send_error(200)

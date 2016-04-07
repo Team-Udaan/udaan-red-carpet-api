@@ -32,11 +32,10 @@ class IndexHandler(RequestHandler):
         self.write(loader.load("index.html").generate(web_host=web_host))
 
 
-class DataHandler(RequestHandler):
+class DataHandler(BaseHandler):
 
     @coroutine
     def get(self, *args, **kwargs):
-        self.db = self.settings["db"].udaanRedCarpet
         data = yield self.db.config.find_one({})
         del data["_id"]
         self.write("URC_DATA=" + json.dumps(data))
