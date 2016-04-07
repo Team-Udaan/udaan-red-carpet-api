@@ -52,6 +52,7 @@ class BaseHandler(RequestHandler):
     def initialize(self):
         self.client = redis.StrictRedis()
         self.response = {}
+        self.start_time = None
 
     def options(self, *args, **kwargs):
         self.send_error(200)
